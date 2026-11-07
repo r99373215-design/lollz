@@ -1,0 +1,221 @@
+/* General Body and Container Styles */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: "Motiva Sans", Arial, Helvetica, sans-serif; /* Steam's primary font */
+    font-size: 14px;
+    color: #c7d5e0; /* Light grey text */
+    background: #1b2838; /* Dark blue-grey background */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh; /* Full viewport height */
+    overflow: hidden; /* Prevent scrollbars if content is slightly larger */
+    position: relative;
+}
+
+/* Background gradient/image (optional, but common for Steam) */
+body::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to bottom, rgba(27, 40, 56, 0.8) 0%, rgba(27, 40, 56, 0.8) 100%), url('https://store.cloudflare.steamstatic.com/public/images/v6/bg_body_top.png') top center no-repeat; /* Example background */
+    background-size: cover;
+    z-index: -1;
+}
+
+.login_container {
+    background-color: #1a212b; /* Slightly lighter dark background for the form box */
+    border-radius: 4px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5); /* Subtle shadow */
+    padding: 30px 40px;
+    width: 380px; /* Fixed width for the login form */
+    box-sizing: border-box;
+    position: relative;
+    z-index: 1;
+}
+
+/* Header and Title */
+.login_container h2 {
+    font-size: 24px;
+    color: #ffffff; /* White title */
+    margin-bottom: 25px;
+    text-align: center;
+    font-weight: normal;
+}
+
+/* Form Group Styling */
+.form_group {
+    margin-bottom: 20px;
+}
+
+.form_group label {
+    display: block;
+    color: #c7d5e0; /* Light grey label text */
+    font-size: 13px;
+    margin-bottom: 8px;
+    text-transform: uppercase; /* Labels are often uppercase on Steam */
+    letter-spacing: 0.5px;
+}
+
+/* Input Fields */
+.form_group input[type="text"],
+.form_group input[type="password"] {
+    width: 100%;
+    padding: 12px 10px;
+    background-color: #32353c; /* Darker input background */
+    border: 1px solid #2a475e; /* Steam-like border color */
+    border-radius: 3px;
+    color: #ffffff; /* White text in input */
+    font-size: 14px;
+    box-sizing: border-box;
+    transition: border-color 0.2s ease-in-out;
+}
+
+.form_group input[type="text"]:focus,
+.form_group input[type="password"]:focus {
+    border-color: #4a6a80; /* Lighter border on focus */
+    outline: none;
+}
+
+/* Remember Me Checkbox */
+.remember_me {
+    display: flex;
+    align-items: center;
+    margin-bottom: 25px;
+    font-size: 13px;
+    color: #c7d5e0;
+}
+
+.remember_me input[type="checkbox"] {
+    margin-right: 8px;
+    /* Custom checkbox styling (optional, but good for exact match) */
+    appearance: none;
+    -webkit-appearance: none;
+    width: 16px;
+    height: 16px;
+    border: 1px solid #2a475e;
+    background-color: #32353c;
+    border-radius: 2px;
+    cursor: pointer;
+    position: relative;
+    flex-shrink: 0; /* Prevent shrinking */
+}
+
+.remember_me input[type="checkbox"]:checked {
+    background-color: #66c0f4; /* Steam blue when checked */
+    border-color: #66c0f4;
+}
+
+.remember_me input[type="checkbox"]:checked::after {
+    content: '\2713'; /* Checkmark character */
+    color: #1a212b; /* Dark color for checkmark */
+    font-size: 12px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    line-height: 1;
+}
+
+/* Sign In Button */
+.login_btn {
+    width: 100%;
+    padding: 15px 20px;
+    background: linear-gradient(to right, #417a9b 5%, #326282 95%); /* Steam blue gradient */
+    border: 1px solid #3d6a8b;
+    border-radius: 2px;
+        color: #ffffff;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.2s ease-in-out, border-color 0.2s ease-in-out;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 20px;
+}
+
+.login_btn:hover {
+    background: linear-gradient(to right, #4a8bb0 5%, #3e7296 95%); /* Slightly lighter on hover */
+    border-color: #4a8bb0;
+}
+
+.login_btn:active {
+    background: linear-gradient(to right, #326282 5%, #417a9b 95%); /* Slightly darker on active */
+    border-color: #326282;
+}
+
+
+/* Links (Forgot Password, Join Steam) */
+.login_links {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.login_links a {
+    color: #66c0f4; /* Steam blue for links */
+    text-decoration: none;
+    font-size: 13px;
+    margin: 0 10px;
+    transition: color 0.2s ease-in-out;
+}
+
+.login_links a:hover {
+    color: #ffffff; /* White on hover */
+}
+
+.login_links .separator {
+    color: #3d6a8b; /* Separator color */
+    font-size: 13px;
+}
+
+/* "Join Steam" Button (if present) */
+.join_steam_wrapper {
+    margin-top: 30px;
+    padding-top: 25px;
+    border-top: 1px solid #2a475e; /* Separator line */
+    text-align: center;
+}
+
+.join_steam_wrapper p {
+    color: #c7d5e0;
+    font-size: 13px;
+    margin-bottom: 15px;
+}
+
+.join_steam_btn {
+    display: inline-block;
+    padding: 12px 25px;
+    background: linear-gradient(to right, #5c7e10 5%, #4b6b0c 95%); /* Steam green gradient */
+    border: 1px solid #50710e;
+    border-radius: 2px;
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: bold;
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    transition: background 0.2s ease-in-out, border-color 0.2s ease-in-out;
+}
+
+.join_steam_btn:hover {
+    background: linear-gradient(to right, #6b8f12 5%, #5a7b0e 95%); /* Slightly lighter on hover */
+    border-color: #6b8f12;
+}
+
+.join_steam_btn:active {    background: linear-gradient(to right, #4b6b0c 5%, #5c7e10 95%); /* Slightly darker on active */
+    border-color: #4b6b0c;
+}
+
+/* Error message (optional, but good for realism) */
+.error_message {
+    color: #ff4747; /* Red error text */
+    font-size: 13px;
+    text-align: center;
+    margin-top: 15px;
+    margin-bottom: -10px; /* Adjust spacing */
+    display: none; /* Hidden by default, shown with JS */
+}
